@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Admin Access</title>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin: 20px 0;
+        }
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 10px;
+            background: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .btn:hover { background: #45a049; }
+        .btn.secondary { background: #2196F3; }
+        .btn.secondary:hover { background: #1976D2; }
+        .status { margin: 20px 0; padding: 10px; background: #e8f5e8; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="test-card">
+        <h1>🔧 Admin Access Test</h1>
+        <p>Let's test different ways to access your Netlify CMS:</p>
+        
+        <h3>Direct Links:</h3>
+        <a href="./admin/index.html" class="btn" target="_blank">📁 Direct: ./admin/index.html</a>
+        <a href="/admin/index.html" class="btn" target="_blank">🌐 Absolute: /admin/index.html</a>
+        <a href="./admin/" class="btn secondary" target="_blank">📂 Folder: ./admin/</a>
+        <a href="/admin/" class="btn secondary" target="_blank">🗂️ Absolute Folder: /admin/</a>
+        
+        <h3>JavaScript Test:</h3>
+        <button onclick="testJS()" class="btn">🧪 Test JavaScript Navigation</button>
+        
+        <div id="status" class="status" style="display:none;">
+            <strong>Status:</strong> <span id="statusText">Testing...</span>
+        </div>
+    </div>
+    
+    <div class="test-card">
+        <h3>🛠️ Debug Information:</h3>
+        <p><strong>Current URL:</strong> <span id="currentUrl"></span></p>
+        <p><strong>Base Path:</strong> <span id="basePath"></span></p>
+        <p><strong>Admin Path Should Be:</strong> <span id="adminPath"></span></p>
+    </div>
+    
+    <script>
+        // Show debug info
+        document.getElementById('currentUrl').textContent = window.location.href;
+        document.getElementById('basePath').textContent = window.location.origin + window.location.pathname.replace('test-admin.html', '');
+        document.getElementById('adminPath').textContent = window.location.origin + window.location.pathname.replace('test-admin.html', 'admin/index.html');
+        
+        function testJS() {
+            const status = document.getElementById('status');
+            const statusText = document.getElementById('statusText');
+            
+            status.style.display = 'block';
+            statusText.textContent = 'Testing JavaScript navigation...';
+            
+            setTimeout(() => {
+                const adminUrl = './admin/index.html';
+                statusText.textContent = `Navigating to: ${adminUrl}`;
+                
+                setTimeout(() => {
+                    window.open(adminUrl, '_blank');
+                    statusText.textContent = 'Opened in new tab. Check if it loaded!';
+                }, 1000);
+            }, 500);
+        }
+    </script>
+</body>
+</html>

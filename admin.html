@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Admin</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 3rem;
+            border-radius: 15px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            margin: 10px;
+            transition: all 0.3s;
+            font-size: 16px;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        .btn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+        h1 { margin-bottom: 1rem; font-size: 2.5rem; }
+        p { margin-bottom: 2rem; font-size: 1.1rem; opacity: 0.9; }
+        .redirect-info {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Portfolio Admin</h1>
+        <p>Welcome to your content management system!</p>
+        
+        <button onclick="openNetlifyCMS()" class="btn" id="cmsButton">
+            🚀 Open Netlify CMS
+        </button>
+        
+        <div class="redirect-info">
+            <strong>✨ Modern Content Management</strong><br>
+            Edit your portfolio content with an easy-to-use interface.<br>
+            Changes are automatically saved to GitHub and deployed live!
+            <br><br>
+            <small id="status">Click the button above or wait for auto-redirect...</small>
+        </div>
+    </div>
+    
+    <script>
+        function openNetlifyCMS() {
+            const status = document.getElementById('status');
+            const button = document.getElementById('cmsButton');
+            
+            status.textContent = 'Opening Netlify CMS...';
+            button.textContent = '⏳ Loading...';
+            button.disabled = true;
+            
+            // Try different paths for local vs deployed
+            const currentPath = window.location.pathname;
+            const basePath = currentPath.includes('/admin.html') ? './' : '/';
+            
+            // Redirect to admin folder
+            try {
+                window.location.href = basePath + 'admin/index.html';
+            } catch (error) {
+                status.textContent = 'Error: Could not load CMS. Trying alternative path...';
+                setTimeout(() => {
+                    window.location.href = '/admin/';
+                }, 1000);
+            }
+        }
+        
+        // Auto-redirect countdown
+        let countdown = 5;
+        const countdownInterval = setInterval(() => {
+            const status = document.getElementById('status');
+            status.textContent = `Auto-redirecting in ${countdown} seconds... (or click the button)`;
+            countdown--;
+            
+            if (countdown < 0) {
+                clearInterval(countdownInterval);
+                openNetlifyCMS();
+            }
+        }, 1000);
+        
+        // Also try immediate redirect if button doesn't work
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('Admin page loaded, CMS will redirect in 5 seconds');
+        });
+    </script>
+</body>
+</html>
